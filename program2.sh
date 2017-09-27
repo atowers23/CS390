@@ -6,7 +6,7 @@
 # been added since the last output will be printed to the screen
 
 
-ls -FA | grep -i ".\.pdf$" | sort >/tmp/.lastcheck # Initialize contents of file temporary file .lastcheck with sorted list of current .pdf files in directory
+ls -FA | grep -i ".\.pdf$" | sort >/tmp/.lastcheck # Initialize contents of temporary file .lastcheck with sorted list of current .pdf files in directory
 while true # Infinite Loop
 do
     sleep 60 # Wait 60 seconds
