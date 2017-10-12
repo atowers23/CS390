@@ -20,9 +20,10 @@ int main(void)
 	int num_nonwhitespace_chars = 0;
 	int total_characters;
 
-	printf("How many sentences do you wish to enter: ");
+	printf("How many sentences (maximum of 10) do you wish to enter: ");
 	scanf("%d", &number_of_sentences);
-	while (bufferValue != '\n') {
+	while (bufferValue != '\n')
+	{
 		bufferValue = getchar();
 	}
 
@@ -32,7 +33,7 @@ int main(void)
 	{
 		dynamic_sentence_array[index] = (char *)malloc(sizeof(char) * 100);
 		printf("Enter sentence #%d: ", index + 1);
-		fgets(dynamic_sentence_array[index], sizeof(dynamic_sentence_array[index]), stdin);
+		fgets(dynamic_sentence_array[index], sizeof(char) * 100, stdin);
 		remove_newline_char(dynamic_sentence_array[index]);
 	}
 
@@ -46,7 +47,14 @@ int main(void)
 	}
 	
 	total_characters = num_nonwhitespace_chars + num_whitespace_chars;
-	printf("There are %d characters, or %d, not including whitespace", total_characters, num_nonwhitespace_chars);
+	printf("There are %d characters, or %d, not including whitespace\n", total_characters, num_nonwhitespace_chars);
+
+	for(index = 0; index < number_of_sentences; index++)
+	{
+		free((void *) dynamic_sentence_array[index]);
+	}
+
+	free((void *) dynamic_sentence_array);
 
 	getchar();
 }
