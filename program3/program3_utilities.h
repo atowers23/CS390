@@ -1,5 +1,4 @@
 #pragma once
-//#include <ctype.h>
 
 void convertSentence(char *sentence);
 

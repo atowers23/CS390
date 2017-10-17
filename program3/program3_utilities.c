@@ -1,4 +1,6 @@
 #include <ctype.h>
+
+/* Converts a sentence to all uppercase.  The actual value of the string is modified */
 void convertSentence(char *sentence)
 {
 	int sentence_index = 0;
@@ -8,7 +10,7 @@ void convertSentence(char *sentence)
 		sentence_index++;
 	}
 }
-
+ /* Converts every sentence in a sentence array to all uppercase.  The actual values of the strings are modified */
 void convertAll(char **sentenceList, int numofSentences)
 {
 	int sentences_index = 0;
@@ -18,14 +20,15 @@ void convertAll(char **sentenceList, int numofSentences)
 	}
 }
 
+/* Returns total amount of nonwhitespace characters in a given string */
 int nonwhitespace_char_couunt(char *sentence)
 {
 	int count = 0;
 	int sentence_index = 0;
 	char check_car = sentence[sentence_index];
-	while (check_car != '\0')
+	while (check_car != '\n')
 	{
-		if ( (check_car != (' ') ) && (check_car != ('\t')) && (check_car != ('\n')) &&
+		if ( (check_car != (' ') ) && (check_car != ('\t')) &&
 			(check_car != ('\v')) && (check_car != ('\f')) )
 		{
 			count++;
@@ -35,14 +38,15 @@ int nonwhitespace_char_couunt(char *sentence)
 	return count;
 }
 
+/* Returns total amount of whitespace characters in a given string */
 int whitespace_char_count(char *sentence)
 {
 	int count = 0;
 	int sentence_index = 0;
 	char check_car = sentence[sentence_index];
-	while (check_car != '\0')
+	while (check_car != '\n')
 	{
-		if ((check_car == (' ')) || (check_car == ('\t')) || (check_car == ('\n')) ||
+		if ((check_car == (' ')) || (check_car == ('\t')) ||
 			(check_car == ('\v')) || (check_car == ('\f')))
 		{
 			count++;
@@ -50,17 +54,4 @@ int whitespace_char_count(char *sentence)
 		check_car = sentence[++sentence_index];
 	}
 	return count;
-}
-
-void remove_newline_char(char *sentence)
-{
-	int index = 0;
-	while (sentence[index] != '\0')
-	{
-		if (sentence[index] == '\n')
-		{
-			sentence[index] = '\0';
-		}
-		index++;
-	}
 }
