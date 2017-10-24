@@ -16,7 +16,8 @@ int main(int argc, char **argv)
 	char file_name[256];
 	DIR *dir;
 	struct dirent *dir_entry;
-	struct stat stat_buf;
+	struct stat stat_buf_send;
+	struct stat stat_buf_receive;
 	mode_t file_type;
 	off_t file_size;
 	blkcnt_t num_blocks;
@@ -25,6 +26,7 @@ int main(int argc, char **argv)
 	int total_filesize = 0;
 	int block_count = 0;
 	int member_count = 0;
+	int the_pipe[2];
 
 	if (argc == 1)
 	{
@@ -48,22 +50,37 @@ int main(int argc, char **argv)
 
 	readdir(dir); // Skip current directory
 	readdir(dir); // Skip parent directory
+	if ((pipe(the_pipe)) == -1)
+	{
+		perror("pipe");
+		exit(-1);
+	}
 	while ((dir_entry = readdir(dir)) != NULL)
 	{
 		member_count+=1;
-		lstat(dir_entry->d_name, &stat_buf);
-		if (S_ISREG(stat_buf.st_mode))
+		lstat(dir_entry->d_name, &stat_buf_send);
+		if ((write(the_pipe[1], &stat_buf_send, sizeof(stat_buf_send))) == -1)
+		{
+			perror("write");
+			exit(-1);
+		}
+		if ((read(the_pipe[0], &stat_buf_receive, sizeof(stat_buf_receive))) == -1)
+		{
+			perror("write");
+			exit(-1);
+		}
+		if (S_ISREG(stat_buf_receive.st_mode))
 		{
 			regular_file_count += 1;
 		}
-		else if (S_ISDIR(stat_buf.st_mode))
+		else if (S_ISDIR(stat_buf_receive.st_mode))
 		{
 			directory_count += 1;
 		}
 
-		total_filesize += (int)stat_buf.st_size;
+		total_filesize += (int)stat_buf_receive.st_size;
 
-		block_count += (int)stat_buf.st_blocks;
+		block_count += (int)stat_buf_receive.st_blocks;
 		
 
 		strcpy(directory_path, argv[1]);
