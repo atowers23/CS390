@@ -8,7 +8,11 @@
 #include <fcntl.h>
 
 /*
-INSERT BLOCK COMMENT DESCRIBING PROGRAM
+Andrew Towers
+This program will generate a directory statistics file for a directory supplied as the first argument.
+The number of regular files, number of directories, total filesize in bytes, and total file storage
+allocation in blocks will be calculated for the supplied directory and printed on the screen.  The output
+will also be stored in a file called "directory_stats" in the same directory as this program is run from.
 */
 
 
@@ -104,7 +108,7 @@ int main(int argc, char **argv)
 		sprintf(write_buf, "DIRECTORY STATS\n"); // Fill write buffer with line to be printed
 		write(fd_dir_stats, write_buf, strlen(write_buf)); // Write contents of line buffer to directory statistics file
 
-		sprintf(write_buf, "------------------------------\n"); // Update write buffer with line to be printed
+		sprintf(write_buf, "------------------------------------------------------\n"); // Update write buffer with line to be printed
 		write(fd_dir_stats, write_buf, strlen(write_buf));
 
 		sprintf(write_buf, "Regular files:%40d\n", regular_file_count);
@@ -159,8 +163,8 @@ int main(int argc, char **argv)
 				exit(-1);
 			}
 		}
-		close(fd_dir_stats);
-		exit(0);
+		close(fd_dir_stats); // Close directory statistics file in parent
+		exit(0); // Exit successfully
 
 	}
 }
