@@ -41,19 +41,13 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	if (argc > 1) // Check if multiple directories were specified
-	{
-		fprintf(stderr, "Error: Invalid arguments, more than one directory input\n");
-		exit(-1);
-	}
-
 	if ((getcwd(start_directory, 500)) == NULL) //Store the starting directory to return to it at program close
 	{
 		perror("getcwd");
 		exit(-1);
 	}
 
-	if ((fd_dir_stats = open("directory_stats", O_RDWR | O_CREAT | O_TRUNC, S_IRWXU)) == -1) //Open directory statistics file for writing
+	if ((fd_dir_stats = open("directory_stats", O_RDWR | O_CREAT | O_TRUNC, S_IRWXU)) == -1)  // Open directory statistics file for reading & writing
 	{
 		perror("open");
 		exit(-1);
@@ -114,7 +108,7 @@ int main(int argc, char **argv)
 		sprintf(write_buf, "DIRECTORY STATS\n"); // Fill write buffer with line to be printed
 		write(fd_dir_stats, write_buf, strlen(write_buf)); // Write contents of line buffer to directory statistics file
 
-		sprintf(write_buf, "------------------------------------------------------\n"); // Update write buffer with line to be printed
+		sprintf(write_buf, "------------------------------------------------------\n"); 
 		write(fd_dir_stats, write_buf, strlen(write_buf));
 
 		sprintf(write_buf, "Regular files:%40d\n", regular_file_count);
