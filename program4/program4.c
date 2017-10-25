@@ -41,6 +41,12 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
+	if (argc > 1) // Check if multiple directories were specified
+	{
+		fprintf(stderr, "Error: Invalid arguments, more than one directory input\n");
+		exit(-1);
+	}
+
 	if ((getcwd(start_directory, 500)) == NULL) //Store the starting directory to return to it at program close
 	{
 		perror("getcwd");
